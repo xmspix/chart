@@ -1,0 +1,26 @@
+{
+  "name": "@xmspix/chart",
+  "version": "0.1.0",
+  "description": "Finance stock chart",
+  "main": "dist/chart.cjs.js",
+  "module": "dist/chart.esm.js",
+  "browser": "dist/chart.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c",
+    "watch": "rollup -c --watch"
+  },
+  "keywords": [
+    "finance",
+    "chart",
+    "stock"
+  ],
+  "author": "Mark Stoler",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
+    "mocha": "^9.1.3",
+    "rollup": "^2.60.2",
+    "typescript": "^4.5.2"
+  }
+}
