@@ -4,12 +4,13 @@
     "module": "esnext",
     "moduleResolution": "node",                     
     "noEmitOnError": true,
-    "lib": ["es2017"],                            
+    "lib": ["es2017", "dom"],                            
     "strict": true,  
-    "esModuleInterop": false,                 
+    "esModuleInterop": true,                 
     "outDir": "out-tsc",
     "rootDir": "./"
   }
   ,
-  "include": ["./src/**/*.ts"]
+  "include": ["./src/**/*.ts", "./scripts/**/*.ts"],
+  "exclude": ["node_modules", "./tests/**/*.test.ts"]
 }

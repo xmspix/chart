@@ -1,14 +1,15 @@
 {
   "name": "@xmspix/chart",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Finance stock chart",
   "main": "dist/chart.cjs.js",
   "module": "dist/chart.esm.js",
   "browser": "dist/chart.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
     "build": "rollup -c",
-    "watch": "rollup -c --watch"
+    "watch": "rollup -c --watch",
+    "release": "node scripts/release.js"
   },
   "keywords": [
     "finance",
@@ -17,10 +18,21 @@
   ],
   "author": "Mark Stoler",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/xmspix/chart.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xmspix/chart/issues"
+  },
+  "homepage": "https://github.com/xmspix/chart#readme",
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.0",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.11.11",
     "mocha": "^9.1.3",
     "rollup": "^2.60.2",
+    "ts-node": "^10.4.0",
     "typescript": "^4.5.2"
   }
 }
