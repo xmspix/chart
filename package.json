@@ -1,6 +1,6 @@
 {
   "name": "@xmspix/chart",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Finance stock chart",
   "main": "dist/chart.cjs.js",
   "module": "dist/chart.esm.js",
@@ -9,7 +9,7 @@
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
     "build": "rollup -c",
     "watch": "rollup -c --watch",
-    "release": "node scripts/release.js"
+    "release": "ts-node scripts/release.ts"
   },
   "keywords": [
     "finance",

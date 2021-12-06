@@ -4,7 +4,7 @@ const { exec } = require('child_process');
 
 function runTests() {
   return new Promise((resolve, reject) => {
-    exec('npm test', (error, stdout, stderr) => {
+    exec('npm test', (error:any, stdout:any, stderr:any) => {
       if (error) {
         reject(`Tests failed. Fix tests before release`);
       }
@@ -29,12 +29,10 @@ async function showReleaseCommands() {
 
     console.log('\x1b[32m%s\x1b[0m', 'Run following commands to release:\n');
 
-    console.log('\x1b[2m%s\x1b[0m', '# Update package lock file');
-    console.log('npm i');
     console.log('\x1b[2m%s\x1b[0m', '# Commit changes');
-    console.log('git add package.json package-lock.json CHANGELOG.md');
+    console.log('git add .');
     console.log(`git commit -m "Release version v${version}"`);
-    console.log('git push origin master');
+    console.log('git push origin main');
     console.log('\x1b[2m%s\x1b[0m', '# Tag new version');
     console.log(`git tag v${version}`);
     console.log('git push origin --tags');
