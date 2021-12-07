@@ -35,17 +35,6 @@ export function formatPrice(price:any) {
     unit = 'K';
   }
 
-  if (price >= 100) {
-    price = Math.round(price * 1) / 1;
-  } else if (price >= 10) {
-    price = Math.round(price * 10) / 10;
-  } else if (price >= 1) {
-    price = Math.round(price * 100) / 100;
-  } else {
-    price = Math.round(price * 100) / 100;
-  }
-
-
   return price + unit;
 }
 

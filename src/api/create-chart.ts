@@ -1,12 +1,15 @@
 import {ChartApi} from './chart-api';
 
+import {WatermarkOptions} from '../gui/watermark';
+
 export interface Ioptions {
     width: number;
     height: number;
-    zoom: number | 8;
-    offset: number | 0;
+    zoom: number;
+    offset: number;
     config: Iconfig;
     theme: {};
+    watermark: WatermarkOptions;
 }
 
 export interface Iconfig {

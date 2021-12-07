@@ -6,6 +6,7 @@ import grid from "../gui/grid";
 import volume from "../gui/volume";
 import scale from "../gui/scale";
 import crosshair from "../gui/crosshair";
+import { SeriesApi } from './series-api';
 
 export interface ChartApi {
   container: HTMLElement;
@@ -15,6 +16,8 @@ export interface ChartApi {
   chartView: IchartView;
   cursor: any[];
   viewModel: any;
+  lineSeries: any[];
+  lineSeriesData: any[];
 }
 
 export interface IchartView {
@@ -37,6 +40,7 @@ export interface IchartView {
 
 import defaultConfig from "../config/defaultConfig";
 import themes from "../config/themes";
+import watermark from '../gui/watermark';
 
 
 export function chartThemes() {
@@ -61,9 +65,11 @@ export class ChartApi {
     this.chartView = <IchartView>{};
     this.cursor = [];
     this.chartInit(options);
+    this.lineSeries = [];
+    this.lineSeriesData = [];
   }
 
-  chartInit({ width, height, zoom, offset, config, theme }: Ioptions) {
+  chartInit({ width, height, zoom=8, offset=0, config, theme }: Ioptions) {
     const canvasLayers: any = {
       base: document.querySelector('.chart-canvas'),
       scale: document.querySelector('.chart-canvas-scale')
@@ -113,26 +119,13 @@ export class ChartApi {
     this.chartDraw();
   }
 
-  chartDraw() {
-    if (!this.chartView.ctx) return;
+  subscribeCrosshairMove(cb?:any) {
+    document.addEventListener('mousemove', () => {
+      cb(this.viewModel.cursorData)
+    });
+  }
 
-    // clear drawing
-    this.chartView.ctx.clearRect(0, 0, this.chartView.width * this.chartView.devicePixelRatio, this.chartView.height * this.chartView.devicePixelRatio);
-
-    // init current view model
-    const width = this.chartView.geometry.boxPrice.content[2];
-    const capacity = Math.floor(width / this.chartView.stickLength);
-    this.viewModel = new View().getView();
-    this.viewModel.initView(capacity, Math.round(this.chartView.offset), this.quotes, this.chartView.locale);
-
-    // draw all the elements        
-    grid(this.chartView, this.viewModel.quotes, this.viewModel.priceLines, this.viewModel.timeLines);
-    price(this.chartView, this.viewModel.quotes);
-
-    if (this.chartView.geometry.boxVolume) {
-      volume(this.chartView, this.viewModel.quotes);
-    }
-
+  private handleMouseEvent() {
     // mouse move event
     this.chartView.crosshairCtx.canvas.onmousemove = (e: any) => {
       const { clientX, clientY } = e;
@@ -159,7 +152,7 @@ export class ChartApi {
       // offset
       offset -= e.deltaX * -2;
       // Restrict offset
-      offset = Math.min(Math.max(-1000, offset), 0);
+      offset = Math.min(Math.max(-this.data.length+130, offset), 0);
       this.chartSetOffset(offset);
 
       // zoom
@@ -167,9 +160,35 @@ export class ChartApi {
       // Restrict scale
       scale = Math.min(Math.max(1, scale), 15);
       this.chartSetZoom(scale);
+    }
+  }
 
+  chartDraw() {
+    if (!this.chartView.ctx) return;
+
+    // clear drawing
+    this.chartView.ctx.clearRect(0, 0, this.chartView.width * this.chartView.devicePixelRatio, this.chartView.height * this.chartView.devicePixelRatio);
+
+    // init current view model
+    const width = this.chartView.geometry.boxPrice.content[2];
+    const capacity = Math.floor(width / this.chartView.stickLength);
+    this.viewModel = new View().getView();
+    this.viewModel.initView(capacity, Math.round(this.chartView.offset), this.quotes, this.chartView.locale);
+
+    // draw all the elements        
+    grid(this.chartView, this.viewModel.quotes, this.viewModel.priceLines, this.viewModel.timeLines);
+    watermark(this.chartView, this.options.watermark);
+    price(this.chartView, this.viewModel.quotes);
+
+    if(this.lineSeriesData.length>0){
+      new SeriesApi(this).drawLineSeries();
     }
 
+    if (this.chartView.geometry.boxVolume) {
+      volume(this.chartView, this.viewModel.quotes);
+    }
+
+    this.handleMouseEvent();
     this.chartDrawCrosshair();
   }
 
@@ -196,4 +215,15 @@ export class ChartApi {
     this.chartView.offset = offset;
     this.chartDraw();
   }
+
+  addLineSeries({color, lineWidth}:any){
+    this.lineSeries.push({color, lineWidth});
+    return this;
+  }
+
+  setData(data: any)  {
+    this.lineSeriesData.push(data);
+    new SeriesApi(this).drawLineSeries();
+  }
+
 }
