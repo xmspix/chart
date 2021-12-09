@@ -1,7 +1,7 @@
 import { inside, relativeFontSize, formatPrice } from '../helpers/chartTools';
 import { fromScreen } from '../helpers/coordinates';
 
-export default function crosshair(view:any, quotes:any, cursorData:any, cursor:any) {
+export default function crosshair(view:any, quotes:any, cursorData:any, cursor:any, serriesData?:any) {
   const [x, y] = cursor;
 
   const boxPricePadding = view.geometry.boxPrice.padding;
@@ -13,10 +13,10 @@ export default function crosshair(view:any, quotes:any, cursorData:any, cursor:a
 
   drawCrosshair(view.crosshairCtx, x, y, boxPricePadding, boxVolumePadding, view, cursorData);
 
-  return getCursorData(view, cursor, quotes);
+  return getCursorData(view, cursor, quotes, serriesData);
 }
 
-function getCursorData(view:any, cursor:any, quotes:any) {
+function getCursorData(view:any, cursor:any, quotes:any, seriesQuotes?:any) {
   const [x, y] = cursor;
   const boxPrice = view.geometry.boxPrice.content;
   const boxPricePadding = view.geometry.boxPrice.padding;
@@ -36,7 +36,9 @@ function getCursorData(view:any, cursor:any, quotes:any) {
 
   const xValue = quotes.data[stickNumber] ? quotes.data[stickNumber] : null;
 
-  const eventData = [xValue,yValue];
+  const sValue = seriesQuotes ? seriesQuotes.map((s:any) => s.data[stickNumber] ? s.data[stickNumber] : null) : null;
+
+  const eventData = [xValue,yValue,sValue];
 
   return eventData;
 }

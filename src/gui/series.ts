@@ -1,6 +1,8 @@
 import { toScreen } from '../helpers/coordinates';
 
 export default function LineSeries(view: any, seriesQuotes: any, priceQuotes: any, lineSeries: any, viewModel: any) {
+  const s:any = [];
+
     seriesQuotes.map((seriesQuotes: any, x: any) => {
         const minTimestamp = priceQuotes.data[0].timestamp;
         const maxTimestamp = priceQuotes.data[priceQuotes.data.length - 1].timestamp;
@@ -19,10 +21,14 @@ export default function LineSeries(view: any, seriesQuotes: any, priceQuotes: an
         const quotesLength = newQoute.length;
         const q = { ...priceQuotes, data: newQoute };
 
+        s.push(q)
+
         for (let i = 0; i < quotesLength; ++i) {
             drawLine(view.ctx, q, i, boxContent, view.stickLength, lineSeries[x]);
         }
     })
+    viewModel.seriesQuotes = s;
+    return s ;
 }
 
 

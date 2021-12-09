@@ -1,6 +1,6 @@
 {
   "name": "@xmspix/chart",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Finance stock chart",
   "main": "dist/chart.cjs.js",
   "module": "dist/chart.esm.js",

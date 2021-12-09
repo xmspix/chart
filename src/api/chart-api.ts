@@ -11,7 +11,6 @@ import { SeriesApi } from './series-api';
 export interface ChartApi {
   container: HTMLElement;
   options: Ioptions;
-  data: [];
   quotes: any[];
   chartView: IchartView;
   cursor: any[];
@@ -55,12 +54,10 @@ export function chartDefaultConfig() {
   return config;
 }
 
-
 export class ChartApi {
   constructor(container: HTMLElement, options: Ioptions) {
     this.container = container;
     this.options = options;
-    this.data = [];
     this.quotes = [];
     this.chartView = <IchartView>{};
     this.cursor = [];
@@ -114,15 +111,24 @@ export class ChartApi {
   }
 
   addCandlestickSeries(data: any) {
-    this.data = data;
     this.quotes = data;
     this.chartDraw();
   }
 
-  subscribeCrosshairMove(cb?:any) {
-    document.addEventListener('mousemove', () => {
-      cb(this.viewModel.cursorData)
-    });
+  
+  subscribeCrosshairMove(cb:any) {
+    const lisener = () => {
+        const info = {
+          data: this.viewModel.cursorData[0], 
+          series: this.viewModel.cursorData[2]
+        }
+        
+        if(info.data) {
+          cb(info);
+        }
+    }
+    document.removeEventListener('mousemove', lisener);
+    document.addEventListener('mousemove',  lisener );
   }
 
   private handleMouseEvent() {
@@ -152,7 +158,7 @@ export class ChartApi {
       // offset
       offset -= e.deltaX * -2;
       // Restrict offset
-      offset = Math.min(Math.max(-this.data.length+130, offset), 0);
+      offset = Math.min(Math.max(-this.quotes.length+130, offset), 0);
       this.chartSetOffset(offset);
 
       // zoom
@@ -197,7 +203,7 @@ export class ChartApi {
     // clear drawing
     this.chartView.crosshairCtx.clearRect(0, 0, this.chartView.width * this.chartView.devicePixelRatio, this.chartView.height * this.chartView.devicePixelRatio);
     scale(this.chartView, this.viewModel.quotes, this.viewModel.priceLines, this.viewModel.timeLines, this.viewModel.cursorData);
-    const cursorData = crosshair(this.chartView, this.viewModel.quotes, this.viewModel.cursorData, this.cursor);
+    const cursorData = crosshair(this.chartView, this.viewModel.quotes, this.viewModel.cursorData, this.cursor, this.viewModel.seriesQuotes);
     this.viewModel.cursorData = cursorData;
   }
 

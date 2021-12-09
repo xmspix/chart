@@ -23,18 +23,39 @@ export interface Iconfig {
 /**
  * This function is the main entry point of the Lightweight Charting Library
  *
- * @param container - id of HTML element or element itself
+ * @param container - HTML element that will contain the chart
  * @param options - any subset of ChartOptions to be applied at start.
  * @returns an interface to the created chart
  */
 export function createChart(container: HTMLElement, options:Ioptions){  
     const chartCanvas = document.createElement('canvas');
     chartCanvas.className = 'chart-canvas';
+    chartCanvas.style.width = '100%';
+    chartCanvas.style.height = '100vh';
+    chartCanvas.style.position = 'absolute';
+    chartCanvas.style.top = '0';
+    chartCanvas.style.left = '0';
+    chartCanvas.style.zIndex = '1';
   
     const scaleCanvas = document.createElement('canvas');
     scaleCanvas.className = 'chart-canvas-scale';
+    scaleCanvas.style.width = '100%';
+    scaleCanvas.style.height = '100vh';
+    scaleCanvas.style.position = 'absolute';
+    scaleCanvas.style.top = '0';
+    scaleCanvas.style.left = '0';
+    scaleCanvas.style.zIndex = '1';
+
+    // const legendContainer = document.createElement('div');
+    // legendContainer.className = 'legend';
+    // legendContainer.style.display = 'block';
+    // legendContainer.style.left = 3 + 'px';
+    // legendContainer.style.top = 3 + 'px';
+    // legendContainer.style.zIndex = '2';
+    // legendContainer.style.position = 'absolute';
   
     container.className = 'chart';
+    // container.appendChild(legendContainer);
     container.appendChild(chartCanvas);
     container.appendChild(scaleCanvas);
 
