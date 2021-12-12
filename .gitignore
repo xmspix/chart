@@ -10,7 +10,3 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 package-lock.json
-
-#other
-client
-www

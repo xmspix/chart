@@ -15,7 +15,7 @@ function drawPriceScale(ctx:any, scaleValues:any, quotes:any, chartView:any, cur
   const fontSize = relativeFontSize(chartView.width,chartView.height,chartView.fontSize,chartView.devicePixelRatio);
   const ratio = priceBoxContent[3] / quotes.range;
 
-  for (let scaleValue of scaleValues) {
+  for (const scaleValue of scaleValues) {
     const screenY = priceBoxContent[0] + priceBoxContent[3] - (scaleValue - quotes.min) * ratio;
 
     ctx.strokeStyle = style.colorScale;
@@ -49,7 +49,7 @@ function drawTimeScale(ctx:any, boxPrice:any, scaleValues:any, chartView:any) {
   const fontSize = relativeFontSize(chartView.width,chartView.height,chartView.fontSize,chartView.devicePixelRatio);
   let previousLabelX = Number.MAX_SAFE_INTEGER;
   for (let i = scaleValues.length - 1; i > 0; --i) {
-    let verticalLine = scaleValues[i];
+    const verticalLine = scaleValues[i];
     ctx.strokeStyle = style.colorGrid;
     const drawingStickBegin = boxPrice[0] + (verticalLine[0] + 0.5) * chartView.stickLength;
 

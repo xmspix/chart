@@ -9,7 +9,7 @@ function drawPriceGrid(ctx:any, scaleValues:any, priceMin:any, priceRange:any, c
   const style = chartView.style;
   const ratio = priceBoxContent[3] / priceRange;
 
-  for(let scaleValue of scaleValues) {
+  for(const scaleValue of scaleValues) {
     const screenY = priceBoxContent[0] + priceBoxContent[3] - (scaleValue - priceMin) * ratio;
 
     ctx.strokeStyle = style.colorGrid;
@@ -27,7 +27,7 @@ function drawTimeGrid(ctx:any, scaleValues:any, chartView:any) {
   const style = chartView.style;
 
   for(let i = 0; i < scaleValues.length; ++i) {
-    let verticalLine = scaleValues[i];
+    const verticalLine = scaleValues[i];
     ctx.strokeStyle = style.colorGrid;
     const drawingStickBegin = boxPrice[0] + (verticalLine[0] + 0.5) * chartView.stickLength;
     ctx.beginPath();

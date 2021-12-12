@@ -45,7 +45,7 @@ export class Quotes {
   quotesInit(quotesData: any) {
     this.data = quotesData;
 
-    for (let quote of quotesData) {
+    for (const quote of quotesData) {
       if (quote.h > this.max) this.max = quote.h;
       if (quote.l < this.min) this.min = quote.l;
       if (quote.volume > this.maxVolume) this.maxVolume = quote.volume;
@@ -76,7 +76,7 @@ export class Quotes {
     }
 
     let prevQuote = null;
-    for (let quote of quotes) {
+    for (const quote of quotes) {
       const prevClose = prevQuote ? prevQuote.c : quote.o;
       const change = (quote.c - prevClose) / prevClose;
       data.avg += Math.abs(change);
@@ -116,8 +116,8 @@ export class Quotes {
     }
 
     let prevQuote = null;
-    for (let quote of quotes) {
-      let variance = calculateVariance(quote, prevQuote);
+    for (const quote of quotes) {
+      const variance = calculateVariance(quote, prevQuote);
       data.avg += variance;
       if (data.min > variance) {
         data.min = variance;

@@ -5,11 +5,11 @@ import {WatermarkOptions} from '../gui/watermark';
 export interface Ioptions {
     width: number;
     height: number;
-    zoom: number;
-    offset: number;
-    config: Iconfig;
-    theme: {};
-    watermark: WatermarkOptions;
+    zoom?: number;
+    offset?: number;
+    config?: Iconfig;
+    theme?: any;
+    watermark?: WatermarkOptions;
 }
 
 export interface Iconfig {
@@ -23,11 +23,11 @@ export interface Iconfig {
 /**
  * This function is the main entry point of the Lightweight Charting Library
  *
- * @param container - HTML element that will contain the chart
+ * @param container - HTML div element that will contain the chart
  * @param options - any subset of ChartOptions to be applied at start.
  * @returns an interface to the created chart
  */
-export function createChart(container: HTMLElement, options:Ioptions){  
+export function createChart(container: HTMLDivElement, options:Ioptions){  
     const chartCanvas = document.createElement('canvas');
     chartCanvas.className = 'chart-canvas';
     chartCanvas.style.width = '100%';
@@ -45,17 +45,8 @@ export function createChart(container: HTMLElement, options:Ioptions){
     scaleCanvas.style.top = '0';
     scaleCanvas.style.left = '0';
     scaleCanvas.style.zIndex = '1';
-
-    // const legendContainer = document.createElement('div');
-    // legendContainer.className = 'legend';
-    // legendContainer.style.display = 'block';
-    // legendContainer.style.left = 3 + 'px';
-    // legendContainer.style.top = 3 + 'px';
-    // legendContainer.style.zIndex = '2';
-    // legendContainer.style.position = 'absolute';
   
     container.className = 'chart';
-    // container.appendChild(legendContainer);
     container.appendChild(chartCanvas);
     container.appendChild(scaleCanvas);
 

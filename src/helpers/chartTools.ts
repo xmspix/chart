@@ -13,7 +13,7 @@ export function humanScalePrice(priceRange: any) {
   const scaleValue = priceRange / 8;
   let humanScaleDiff = 100000000;
   let humanScale = 0;
-  for (let range of ranges) {
+  for (const range of ranges) {
     const diff = Math.abs(scaleValue - range);
     if (humanScaleDiff > diff) {
       humanScaleDiff = diff;

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@xmspix/chart@latest/dist/chart.min.js"></script>
+    <script src="./scripts.js"></script>
+    <script src="./data.js"></script>
+</head>
+
+<body>
+    <script>
+
+        const container = document.createElement('div');
+        document.body.appendChild(container);
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const chart = Chart.createChart(container, {
+            width: width,
+            height: height,
+            watermark: {
+                text: '@xmspix/chart',
+                color: 'rgba(0, 0, 0, 0.2)',
+                fontSize: '60px',
+                fontFamily: 'sans-serif',
+            }
+        });
+
+        chart.addCandlestickSeries(data)
+
+        const indicators = [{
+            data: calculateSMA(data, 50),
+            options: { color: 'blue', lineWidth: 1 }
+        },
+        {
+            data: calculateSMA(data, 100),
+            options: { color: 'red', lineWidth: 1 }
+        }]
+
+        indicators.map(indicator => {
+            const series = chart.addLineSeries(indicator.options);
+            series.setData(indicator.data);
+        })
+
+        const legend = document.createElement('div');
+        legend.className = 'legend';
+        container.appendChild(legend);
+        legend.style.display = 'block';
+        legend.style.left = 3 + 'px';
+        legend.style.top = 3 + 'px';
+        legend.style.zIndex = 1;
+        legend.style.position = 'absolute';
+
+        chart.subscribeCrosshairMove(({ data, series }) => {
+            setPriceLegend(`O${priceFormater(data.o)} H${priceFormater(data.h)} L${priceFormater(data.l)} C${priceFormater(data.c)} V${volumeFormater(data.volume)} `);
+            series.map(s => {
+                if (s && s.c) {
+                    legend.innerHTML += `<br> ${priceFormater(s.c)}`
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

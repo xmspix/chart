@@ -9,7 +9,7 @@ import crosshair from "../gui/crosshair";
 import { SeriesApi } from './series-api';
 
 export interface ChartApi {
-  container: HTMLElement;
+  container: HTMLDivElement;
   options: Ioptions;
   quotes: any[];
   chartView: IchartView;
@@ -55,7 +55,7 @@ export function chartDefaultConfig() {
 }
 
 export class ChartApi {
-  constructor(container: HTMLElement, options: Ioptions) {
+  constructor(container: HTMLDivElement, options: Ioptions) {
     this.container = container;
     this.options = options;
     this.quotes = [];
@@ -183,7 +183,7 @@ export class ChartApi {
 
     // draw all the elements        
     grid(this.chartView, this.viewModel.quotes, this.viewModel.priceLines, this.viewModel.timeLines);
-    watermark(this.chartView, this.options.watermark);
+    this.options.watermark && watermark(this.chartView, this.options.watermark);
     price(this.chartView, this.viewModel.quotes);
 
     if(this.lineSeriesData.length>0){

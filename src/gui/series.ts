@@ -34,7 +34,7 @@ export default function LineSeries(view: any, seriesQuotes: any, priceQuotes: an
 
 function drawLine(ctx:any, quotes:any, i:any, boxContent:any, stickLength:any, style:any) {
     const xStart = boxContent[0] + i * stickLength;
-    let xEnd = boxContent[0] + (i + 1) * stickLength;
+    const xEnd = boxContent[0] + (i + 1) * stickLength;
     const q = quotes.data;
     const c = q[i].c;
     const prevC = i === 0 ? q[i].o : q[i - 1].c;

@@ -63,7 +63,7 @@ function drawCrosshair(ctx:any, x:any, y:any, boxPrice:any, boxVolume:any, chart
 
   ctx.font = `${fontSize}px "Arial"`;
 
-  let yValue = cursorData[1];
+  const yValue = cursorData[1];
 
   const text = formatPrice(yValue);
 
